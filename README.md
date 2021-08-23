@@ -2,7 +2,7 @@
 
 ## About The Project
 >This is CCD's Diary Portal used during Internships as well as Placements. 
-<li>Developed CCD portal's diary component to automate the remark system.<li>
+<li>Developed CCD portal's diary component to automate the remark system.</li>
 <li>Implemented proffering, searching, addition as well as removal of companies, their remarks and respective POC's.</li>
 <li>Different Pages for Intern and Placements related things</li>
 
