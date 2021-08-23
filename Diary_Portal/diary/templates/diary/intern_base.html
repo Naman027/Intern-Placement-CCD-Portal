@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+      integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
+      integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+      <script src="{% static 'diary/jquery-3.4.1.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+  integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+  integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  <style>
+    table, td, th, thead{
+      border: 3px solid black;
+    }
+    th, td{
+      font-size: 1.2em;
+    }
+  </style>
+	<title>Diary Portal</title>
+</head>
+<body style="padding: 2rem; background-color: #1eb2a6;">
+
+      <div class="container-fluid">
+        <nav class="navbar sticky-top navbar-dark">
+          <a target="_self" class="btn btn-primary" role="button" href="{%url 'edit_ID'  %}" lass="navbar-brand" style="border: 2px solid black;">Edit Intern ID</a>
+          <div class="search-box">
+            <form class="form-inline">
+            <input class="search-txt" type="text" placeholder=" Search" name="search" id="search" style="border: 2px solid black; width: 300px;"> &ensp;
+              <a class="search-btn" href="#">
+                <i class="fas fa-search"></i>
+              </a>
+            </form>
+          </div>
+      <a target="_self" class="btn btn-primary" role="button" href="{%url 'edit_ID'  %}" lass="navbar-brand" style="border: 2px solid black;">Edit Intern ID</a>
+      <a target="_self" class="btn btn-primary" role="button" href="{%url 'logout'  %}" class="navbar-brand" style="border: 2px solid black;">Logout</a>
+    </nav>
+
+      <br><br>
+
+{% csrf_token %}
+<!-- <input type="text" name="search" id="search" placeholder="Question or user"> -->
+
+<!-- <div class="wrapper"> -->
+
+<div id="search-results">
+
+</div>
+
+
+<script>
+
+  $(function() {
+    $.ajax({
+        type: "POST",
+        url: "/diary/intern/search/",
+        data: {
+            'search_text2' : "",
+            'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+        },
+        success: searchSuccess,
+        dataType: 'html'
+    });
+    $('#search').keyup(function() {
+
+        $.ajax({
+            type: "POST",
+            url: "/diary/intern/search/",
+
+            data: {
+                'search_text2' : $('#search').val(),
+                'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+            },
+            success: searchSuccess,
+            dataType: 'html'
+        });
+    });
+});
+
+function searchSuccess(data, textStatus, jqXHR)
+{
+    // let lis = document.getElementById("mainlist");
+    // console.log(sres.childNodes.length    )
+        // lis.style.display = "none";
+
+    $('#search-results').html(data)
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+const rows = document.querySelectorAll("tr[data-href]");
+console.log(rows);
+rows.forEach(row=>{
+row.addEventListener("click",()=>{
+window.location.href = row.dataset.href;
+
+});
+});
+});
+
+$(document).ready(function(){
+$(document.body).on("click","tr[data-href]",function(){
+window.location.href=this.dataset.href;
+});
+});
+
+</script>
+
+
+
+
+
+</body>
+</html>
